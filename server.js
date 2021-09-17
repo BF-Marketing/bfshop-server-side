@@ -184,7 +184,7 @@ app.post('/submitproduct', verifyUserAuth, (req, res) => {
 
     if(!fs.existsSync(`images/${req.session.status.id}`)){ fs.mkdirSync(`images/${req.session.status.id}`) }
     
-    const createDocument = {...req.body, seller: req.session.status.username, likes: [], image: `https://radiant-retreat-44230.herokuapp.com/${req.session.status.id}/${newName}`};
+    const createDocument = {...req.body, seller: req.session.status.username, likes: [], image: `${process.env.HOST_URL}${req.session.status.id}/${newName}`};
 
     // moves file to a folder with the user's id & add data to database 
     productImage.mv(path.resolve(path.dirname(''),'images', req.session.status.id, newName), (error) => {  
