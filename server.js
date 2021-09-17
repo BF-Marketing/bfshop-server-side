@@ -20,11 +20,12 @@ import { generateInvoice } from './functions.js';
 const app = express();
 const mongoDBsession = MongoDBStore(expreSession);
 const store = new mongoDBsession({
-    uri: process.env.MONGODB_URI.toString(), 
-    databaseName: process.env.MONGODB_SESSION_DATABASE.toString(),
-    collection: process.env.MONGODB_SESSION_COLLECTION.toString()
+    uri: process.env.MONGODB_URI, 
+    databaseName: process.env.MONGODB_SESSION_DATABASE,
+    collection: process.env.MONGODB_SESSION_COLLECTION
 });
-
+console.log(process.env.MONGODB_URI)
+console.log(typeof(process.env.MONGODB_URI))
 // Middleware
 app.use(cors({origin: true, methods: ['GET', 'POST', 'PUT', 'DELETE'], credentials: true}))
 app.use(express.json());
@@ -36,7 +37,7 @@ app.use('/register', registerValidation)
 app.use('/submitproduct', submitedProductValidation)
 app.use('/submitorder', orderProductValidation)
 app.use(expreSession({
-    secret: process.env.SESSION_SECRET.toString(),
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
     cookie: { maxAge: parseInt(process.env.COOKIE_MAX_AGE) },  
@@ -184,7 +185,7 @@ app.post('/submitproduct', verifyUserAuth, (req, res) => {
 
     if(!fs.existsSync(`images/${req.session.status.id}`)){ fs.mkdirSync(`images/${req.session.status.id}`) }
     
-    const createDocument = {...req.body, seller: req.session.status.username, likes: [], image: `${process.env.HOST_URL.toString()}${req.session.status.id}/${newName}`};
+    const createDocument = {...req.body, seller: req.session.status.username, likes: [], image: `${process.env.HOST_URL}${req.session.status.id}/${newName}`};
 
     // moves file to a folder with the user's id & add data to database 
     productImage.mv(path.resolve(path.dirname(''),'images', req.session.status.id, newName), (error) => {  
@@ -215,12 +216,13 @@ app.post('/submitproduct', verifyUserAuth, (req, res) => {
 }); 
 
 const PORT = process.env.PORT || 5000;
-mongoose.connect(`${process.env.MONGODB_URI.toString()}`, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}).then(() => {
-    console.log('Connected to MongoDB database...');
-    return app.listen({port: PORT});
-}).then(res => {
-    console.log(`Server running at ${PORT}`);
-})
-.catch(err => {
-    console.error(err)
-})
+mongoose.connect(`${process.env.MONGODB_URI}`, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
+    .then(() => {
+        console.log('Connected to MongoDB database...');
+        return app.listen({port: PORT});
+    }).then(res => {
+        console.log(`Server running at ${PORT}`);
+    })
+    .catch(err => {
+        console.error(err)
+    })

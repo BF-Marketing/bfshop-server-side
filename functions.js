@@ -53,8 +53,8 @@ function emailSender (filepath, filename, clientLastName, clientEmail, responseC
     const transporter = nodemailer.createTransport({
         service: "hotmail",
         auth: {
-            user: process.env.MY_EMAIL.toString(),
-            pass: process.env.MY_EMAIL_PASS.toString()
+            user: process.env.MY_EMAIL,
+            pass: process.env.MY_EMAIL_PASS
         },
         tls: {
             rejectUnauthorized: false
@@ -62,7 +62,7 @@ function emailSender (filepath, filename, clientLastName, clientEmail, responseC
     });
     
     const options = {
-        from: process.env.MY_EMAIL.toString(),
+        from: process.env.MY_EMAIL,
         to: `${clientEmail.trim()}`,
         subject: "BF SHOP Order receipt",
         text: `Dear ${clientLastName}, \nThis is a confirmation that you've made a purchase on BF Shop.\nYour receipt is attached to this email.\nBest Regards,\nBF Shop Sales Team`,
@@ -73,6 +73,7 @@ function emailSender (filepath, filename, clientLastName, clientEmail, responseC
 
     transporter.sendMail(options, function (err, info){
         if(err){
+            console.log(err);
             responseCallback(false);
         }
         else{
@@ -82,7 +83,9 @@ function emailSender (filepath, filename, clientLastName, clientEmail, responseC
             try{
                 fs.unlinkSync(filepath)
             }  
-            catch(err){}
+            catch(err){
+                console.log(err);
+            }
         }
     })
 }
