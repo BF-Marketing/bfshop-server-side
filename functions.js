@@ -1,9 +1,8 @@
 import easyinvoice from "easyinvoice";
 import nodemailer from "nodemailer";
 import fs from "fs";
-import { MY_EMAIL, MY_EMAIL_PASS } from './config.js';
-// import dotenv from 'dotenv';
-// dotenv.config()
+import dotenv from 'dotenv';
+dotenv.config()
 
 export function generateInvoice(clientInfo, responseCallback){
     var data = {
@@ -54,8 +53,8 @@ function emailSender (filepath, filename, clientLastName, clientEmail, responseC
     const transporter = nodemailer.createTransport({
         service: "hotmail",
         auth: {
-            user: MY_EMAIL,
-            pass: MY_EMAIL_PASS
+            user: process.env.MY_EMAIL.toString(),
+            pass: process.env.MY_EMAIL_PASS.toString()
         },
         tls: {
             rejectUnauthorized: false
@@ -63,7 +62,7 @@ function emailSender (filepath, filename, clientLastName, clientEmail, responseC
     });
     
     const options = {
-        from: MY_EMAIL,
+        from: process.env.MY_EMAIL.toString(),
         to: `${clientEmail.trim()}`,
         subject: "BF SHOP Order receipt",
         text: `Dear ${clientLastName}, \nThis is a confirmation that you've made a purchase on BF Shop.\nYour receipt is attached to this email.\nBest Regards,\nBF Shop Sales Team`,

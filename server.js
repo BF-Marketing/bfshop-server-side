@@ -7,9 +7,8 @@ import path from 'path';
 import fs from 'fs';
 import cors from 'cors';
 import bcrypt from 'bcrypt';
-import { SESSION_SECRET, MONGODB_URI, MONGODB_SESSION_DATABASE, MONGODB_SESSION_COLLECTION, HOST_URL, COOKIE_MAX_AGE } from './config.js';
-// import dotenv from 'dotenv';
-// dotenv.config()
+import dotenv from 'dotenv';
+dotenv.config()
 
 import accessoriesModel from './models/accessoriesModel.js';
 import clothingModel from './models/clothingModel.js';
@@ -21,9 +20,9 @@ import { generateInvoice } from './functions.js';
 const app = express();
 const mongoDBsession = MongoDBStore(expreSession);
 const store = new mongoDBsession({
-    uri: MONGODB_URI, 
-    databaseName: MONGODB_SESSION_DATABASE,
-    collection: MONGODB_SESSION_COLLECTION
+    uri: process.env.MONGODB_URI.toString(), 
+    databaseName: process.env.MONGODB_SESSION_DATABASE.toString(),
+    collection: process.env.MONGODB_SESSION_COLLECTION.toString()
 });
 
 // Middleware
@@ -37,10 +36,10 @@ app.use('/register', registerValidation)
 app.use('/submitproduct', submitedProductValidation)
 app.use('/submitorder', orderProductValidation)
 app.use(expreSession({
-    secret: SESSION_SECRET,
+    secret: process.env.SESSION_SECRET.toString(),
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: parseInt(COOKIE_MAX_AGE) },  
+    cookie: { maxAge: parseInt(process.env.COOKIE_MAX_AGE) },  
     store: store
 }));
 
@@ -185,7 +184,7 @@ app.post('/submitproduct', verifyUserAuth, (req, res) => {
 
     if(!fs.existsSync(`images/${req.session.status.id}`)){ fs.mkdirSync(`images/${req.session.status.id}`) }
     
-    const createDocument = {...req.body, seller: req.session.status.username, likes: [], image: `${HOST_URL}${req.session.status.id}/${newName}`};
+    const createDocument = {...req.body, seller: req.session.status.username, likes: [], image: `${process.env.HOST_URL.toString()}${req.session.status.id}/${newName}`};
 
     // moves file to a folder with the user's id & add data to database 
     productImage.mv(path.resolve(path.dirname(''),'images', req.session.status.id, newName), (error) => {  
@@ -216,7 +215,7 @@ app.post('/submitproduct', verifyUserAuth, (req, res) => {
 }); 
 
 const PORT = process.env.PORT || 5000;
-mongoose.connect(`${MONGODB_URI}`, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}).then(() => {
+mongoose.connect(`${process.env.MONGODB_URI.toString()}`, {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true}).then(() => {
     console.log('Connected to MongoDB database...');
     return app.listen({port: PORT});
 }).then(res => {
