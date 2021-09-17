@@ -24,8 +24,7 @@ const store = new mongoDBsession({
     databaseName: process.env.MONGODB_SESSION_DATABASE,
     collection: process.env.MONGODB_SESSION_COLLECTION
 });
-console.log(process.env.MONGODB_URI)
-console.log(typeof(process.env.MONGODB_URI))
+
 // Middleware
 app.use(cors({origin: true, methods: ['GET', 'POST', 'PUT', 'DELETE'], credentials: true}))
 app.use(express.json());
