@@ -35,11 +35,13 @@ app.use('/login', loginValidation)
 app.use('/register', registerValidation)
 app.use('/submitproduct', submitedProductValidation)
 app.use('/submitorder', orderProductValidation)
+
+app.set('trust proxy', 1);
 app.use(expreSession({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: parseInt(process.env.COOKIE_MAX_AGE) },  
+    cookie: { maxAge: parseInt(process.env.COOKIE_MAX_AGE), secure: true },  
     store: store
 }));
 
