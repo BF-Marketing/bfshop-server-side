@@ -19,7 +19,11 @@ import { generateInvoice } from './functions.js';
 
 const app = express();
 const mongoDBsession = MongoDBStore(expreSession);
-const store = new mongoDBsession({uri: process.env.MONGODB_URI, collection: process.env.MONGODB_SESSION_COLLECTION});
+const store = new mongoDBsession({
+    uri: process.env.MONGODB_URI, 
+    databaseName: process.env.MONGODB_SESSION_DATABASE,
+    collection: process.env.MONGODB_SESSION_COLLECTION
+});
 
 // Middleware
 app.use(cors({origin: true, methods: ['GET', 'POST', 'PUT', 'DELETE'], credentials: true}))
