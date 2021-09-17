@@ -26,7 +26,7 @@ const store = new mongoDBsession({
 });
 
 // Middleware
-app.use(cors({origin: true, methods: ['GET', 'POST', 'PUT', 'DELETE'], credentials: true}))
+app.use(cors({origin: "https://flamboyant-darwin-dd503f.netlify.app", methods: ['GET', 'POST', 'PUT', 'DELETE'], credentials: true}))
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('images'))
@@ -36,12 +36,12 @@ app.use('/register', registerValidation)
 app.use('/submitproduct', submitedProductValidation)
 app.use('/submitorder', orderProductValidation)
 
-app.set('trust proxy', 1);
+// app.set('trust proxy', 1)
 app.use(expreSession({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: parseInt(process.env.COOKIE_MAX_AGE), secure: true },  
+    cookie: { maxAge: parseInt(process.env.COOKIE_MAX_AGE) },  
     store: store
 }));
 
