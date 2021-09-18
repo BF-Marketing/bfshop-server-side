@@ -21,7 +21,6 @@ const app = express();
 const mongoDBsession = MongoDBStore(expreSession);
 const store = new mongoDBsession({
     uri: process.env.MONGODB_URI, 
-    databaseName: process.env.MONGODB_SESSION_DATABASE,
     collection: process.env.MONGODB_SESSION_COLLECTION
 });
 
@@ -36,24 +35,16 @@ app.use('/register', registerValidation)
 app.use('/submitproduct', submitedProductValidation)
 app.use('/submitorder', orderProductValidation)
 
-// app.set('trust proxy', true)
 app.use(expreSession({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    // cookie: { maxAge: parseInt(process.env.COOKIE_MAX_AGE) },
-    cookie: { maxAge: parseInt(process.env.COOKIE_MAX_AGE) },
+    cookie: { maxAge: parseInt(process.env.COOKIE_MAX_AGE), secure: true },
     store: store
 }));
 
 // gets all products from the database
 app.get('/all-products', async (req, res) => {
-    console.log("=============== REQ SESSION ===============")
-    console.log(req.session)  // here
-
-    console.log("=============== REQ SESSION STATUS ===============")
-    console.log(req.session.status)  // here
-
     const accessoriesinfo = await accessoriesModel.find({});
     const clothinginfo = await clothingModel.find({});
     const shoesinfo = await shoesModel.find({});  
@@ -96,8 +87,6 @@ app.post('/login', (req, res) => {
                     else{
                         if(same){
                             req.session.status = {auth: true, id: user._id.toString(), username: user.username};
-                            console.log("=============== REQ SESSION STATUS AFTER LOGIN ===============")
-                            console.log(req.session.status)  // here
                             res.json(req.session.status);
                         }
                         else{
