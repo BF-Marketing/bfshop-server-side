@@ -42,15 +42,16 @@ app.use(expreSession({
     resave: false,
     saveUninitialized: false,
     // cookie: { maxAge: parseInt(process.env.COOKIE_MAX_AGE) },
-    cookie: { maxAge: parseInt(process.env.COOKIE_MAX_AGE), httpOnly: false, secure: true},
+    cookie: { maxAge: parseInt(process.env.COOKIE_MAX_AGE) },
     store: store
 }));
 
 // gets all products from the database
 app.get('/all-products', async (req, res) => {
+    console.log(req.session.status)  // here
     const accessoriesinfo = await accessoriesModel.find({});
     const clothinginfo = await clothingModel.find({});
-    const shoesinfo = await shoesModel.find({});   
+    const shoesinfo = await shoesModel.find({});  
     if(req.session.status && req.session.status.auth){
         res.json({auth: true, id: req.session.status.id, username: req.session.status.username, products: [accessoriesinfo, clothinginfo, shoesinfo] });
     }
@@ -90,6 +91,7 @@ app.post('/login', (req, res) => {
                     else{
                         if(same){
                             req.session.status = {auth: true, id: user._id.toString(), username: user.username};
+                            console.log(req.session.status)  // here
                             res.json(req.session.status);
                         }
                         else{
