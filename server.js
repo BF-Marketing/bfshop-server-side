@@ -20,7 +20,8 @@ import { generateInvoice } from './functions.js';
 const app = express();
 const mongoDBsession = MongoDBStore(expreSession);
 const store = new mongoDBsession({
-    uri: process.env.MONGODB_URI, 
+    uri: process.env.MONGODB_URI,
+    databaseName: process.env.MONGODB_SESSION_DATABASE,
     collection: process.env.MONGODB_SESSION_COLLECTION
 });
 
