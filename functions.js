@@ -35,7 +35,10 @@ export function generateInvoice(clientInfo, responseCallback){
     };
 
     // The response will contain a base64 encoded PDF file
-    easyinvoice.createInvoice(data, function (result) {
+    easyinvoice.createInvoice(data, function (err, result) {
+        if(err){
+            console.log(err)
+        }
         const dir = './receipts';
         const fullpath = `./receipts/${clientInfo.dateMilisecs}RECEIPT${clientInfo.lastName}.pdf`;
         const filename = `${clientInfo.dateMilisecs}RECEIPT${clientInfo.lastName}.pdf`;

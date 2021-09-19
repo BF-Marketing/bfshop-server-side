@@ -77,7 +77,8 @@ app.post('/submitorder', (req, res) => {
 
     req.body.date = `${todayDate.getMonth()}/${todayDate.getDay()}/${todayDate.getFullYear()}`;
     req.body.dateMilisecs = new Date().getTime();
-
+    
+    console.log("========== BEFORE PROCESSING ===============")
     if(!fs.existsSync(`./receipts/${new Date().getTime()}RECEIPT${req.body.lastName}.pdf`)){ 
         generateInvoice(req.body, responseCallback);
     }
