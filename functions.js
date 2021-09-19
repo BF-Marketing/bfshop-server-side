@@ -38,7 +38,8 @@ export function generateInvoice(clientInfo, responseCallback){
     // The response will contain a base64 encoded PDF file
     easyinvoice.createInvoice(data, function (err, result) {
         if(err){
-            responseCallback(false);
+            // responseCallback(false);
+            console.log("========== HERE ===============");
             console.log(err);
         }
         else{
