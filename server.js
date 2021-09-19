@@ -16,7 +16,7 @@ import { generateInvoice } from './functions.js';
 const app = express();
 
 // Middleware
-app.use(cors({origin: true, methods: ['GET', 'POST', 'PUT']}))
+app.use(cors({origin: true, methods: ['GET', 'POST', 'PUT'], credentials: true}))
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('images'))
