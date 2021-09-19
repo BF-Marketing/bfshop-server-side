@@ -3,38 +3,15 @@ dotenv.config()
 
 const regex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-export const loginValidation = (req, res, next) => {
-    if(req.body.username === null || req.body.username === ""){
-        return res.json({auth: false, message: "Username cannot be empty"});
-    }
-    else if(req.body.password === null || req.body.password === ""){
-        return res.json({auth: false, message: "Password cannot be empty"});
-    }
-    next()
-}
-
-export const registerValidation = (req, res, next) => {
-    if(req.body.email === null || req.body.email === ""){
-        return res.json({auth: false, message: "Email cannot be empty"});
-    }
-    else if(!regex.test(req.body.email)){
-        return res.json({auth: false, message: "Email is not valid"});
-    }
-    else if(req.body.username === null || req.body.username === ""){
-        return res.json({auth: false, message: "Username cannot be empty"});
-    }
-    else if(req.body.password === null || req.body.password === ""){
-        return res.json({auth: false, message: "Password cannot be empty"});
-    }
-    next()
-}
-
 export const submitedProductValidation = (req, res, next) => {
     if(req.files === null || req.files === undefined){
         return res.json({message: "Please, upload an image"});
     }
     else if(req.body.name === null || req.body.name === ""){
         return res.json({message: "Name cannot be empty"});
+    }
+    else if(req.body.seller === null || req.body.seller === ""){
+        return res.json({message: "Seller cannot be empty"});
     }
     else if(req.body.description === null || req.body.description === ""){
         return res.json({message: "Description cannot be empty"});
@@ -107,13 +84,4 @@ export const orderProductValidation = (req, res, next) => {
         return res.json({message: "Please, add items to the cart"});
     }
     next()
-}
-
-export const verifyUserAuth = (req, res, next) => {
-    if(req.session.status && req.session.status.auth){
-        next()
-    }
-    else{
-        res.json({auth: false, message: 'You need to login'});
-    }
 }

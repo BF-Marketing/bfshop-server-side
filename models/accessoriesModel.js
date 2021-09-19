@@ -4,13 +4,7 @@ const accessoriesSchema = mongoose.Schema({
     seller: String,
     description: String,
     image: String,
-    likes: [{
-        userid: String,
-        createdAt: {
-            type: Date,
-            default: new Date()
-        }
-    }],
+    likes: Number,
     size: [String],
     shipping: String,
     color: String,
