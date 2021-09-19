@@ -4,19 +4,18 @@ import fileUpload from 'express-fileupload';
 import path from 'path';
 import fs from 'fs';
 import cors from 'cors';
-import dotenv from 'dotenv';
-dotenv.config()
-
 import accessoriesModel from './models/accessoriesModel.js';
 import clothingModel from './models/clothingModel.js';
 import shoesModel from './models/shoesModel.js';
 import { submitedProductValidation, orderProductValidation } from './middlewares/customMiddlewares.js';
 import { generateInvoice } from './functions.js';
+import dotenv from 'dotenv';
+dotenv.config()
 
 const app = express();
 
 // Middleware
-app.use(cors({origin: "https://bfshop.netlify.app/", methods: ['GET', 'POST', 'PUT', 'DELETE']}))
+app.use(cors())
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static('images'))

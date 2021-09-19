@@ -36,21 +36,14 @@ export function generateInvoice(clientInfo, responseCallback){
     };
 
     // The response will contain a base64 encoded PDF file
-    easyinvoice.createInvoice(data, function (err, result) {
-        if(err){
-            // responseCallback(false);
-            console.log("========== HERE ===============");
-            console.log(err);
-        }
-        else{
-            const dir = './receipts';
-            const fullpath = `./receipts/${clientInfo.dateMilisecs}RECEIPT${clientInfo.lastName}.pdf`;
-            const filename = `${clientInfo.dateMilisecs}RECEIPT${clientInfo.lastName}.pdf`;
-            if(!fs.existsSync(dir)){ fs.mkdirSync(dir); }
-    
-            fs.writeFileSync(fullpath, result.pdf, 'base64');
-            emailSender(fullpath, filename, clientInfo.lastName, clientInfo.email, responseCallback);
-        }
+    easyinvoice.createInvoice(data, function (result) {
+        const dir = './receipts';
+        const fullpath = `./receipts/${clientInfo.dateMilisecs}RECEIPT${clientInfo.lastName}.pdf`;
+        const filename = `${clientInfo.dateMilisecs}RECEIPT${clientInfo.lastName}.pdf`;
+        if(!fs.existsSync(dir)){ fs.mkdirSync(dir); }
+
+        fs.writeFileSync(fullpath, result.pdf, 'base64');
+        emailSender(fullpath, filename, clientInfo.lastName, clientInfo.email, responseCallback);
     });
 }
 
