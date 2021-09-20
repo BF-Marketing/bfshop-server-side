@@ -10,20 +10,24 @@ It was built with MERN Stack (MongoDB, Express JS, React JS and Node JS) technol
 - Footwear (Sneakers and Boots)
 - Accessories (Watches and Bracelets)
 
-### Server side
-This repository simply shows how the connection between the database, backend and frontend was made. For more information about the site frontend and pictures, you should go to the frontend repository: [https://github.com/BF-Marketing/bfshop-client-side](https://github.com/BF-Marketing/bfshop-client-side)
-
 This repository simply shows what happens on the server side. You can see the photos below or go directly to the site here: [https://bfshop.netlify.app/](https://bfshop.netlify.app/).
 
+### Client side
+
+For more information about the site's frontend, you should go to the frontend repository: [https://github.com/BF-Marketing/bfshop-client-side](https://github.com/BF-Marketing/bfshop-client-side)
+
 ### Homepage
+
 ![](screenshots/homepage.PNG)
 
 ### Products
+
 ![](screenshots/products.PNG)
 
 ### Product details
+
 ![](screenshots/productDetails.PNG)
 
 ### Cart
-![](screenshots/cart.PNG)
 
+![](screenshots/cart.PNG)
